@@ -1,0 +1,4 @@
+onjiro_session:
+    resource: "@OnjiroSessionBundle/Resources/config/routing.yml"
+    prefix:   /
+
