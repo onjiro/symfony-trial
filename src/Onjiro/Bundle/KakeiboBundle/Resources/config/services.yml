@@ -1,0 +1,7 @@
+parameters:
+#    onjiro_kakeibo.example.class: Onjiro\Bundle\KakeiboBundle\Example
+
+services:
+#    onjiro_kakeibo.example:
+#        class: %onjiro_kakeibo.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
