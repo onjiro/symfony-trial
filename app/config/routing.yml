@@ -1,5 +1,6 @@
 onjiro_kakeibo:
-    resource: "@OnjiroKakeiboBundle/Resources/config/routing.yml"
+    resource: "@OnjiroKakeiboBundle/Controller/"
+    type:     annotation
     prefix:   /
 
 onjiro_session:
