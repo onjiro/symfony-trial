@@ -1,7 +1,19 @@
 parameters:
-#    onjiro_kakeibo.example.class: Onjiro\Bundle\KakeiboBundle\Example
+    # とりあえずここに書いているがあとで config.yml に移す
+    onjiro_kakeibo.formatMappings:
+        '/kakeibo.*': twig
+        '/api.*': json
+    # フォーマッターは別途タイプ毎に切り出す形としたい
+    onjiro_kakeibo.formatters:
+        twig: Onjiro\Bundle\KakeiboBundle\Formatter\TwigFormatter
+        json: Onjiro\Bundle\KakeiboBundle\Formatter\JsonFormatter
 
 services:
-#    onjiro_kakeibo.example:
-#        class: %onjiro_kakeibo.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    kernel.listener.your_listener_name:
+        class: Onjiro\Bundle\KakeiboBundle\EventListener\ViewEventListener
+        arguments: 
+            - %onjiro_kakeibo.formatMappings%
+            - %onjiro_kakeibo.formatters%
+            - @templating
+        tags:
+            - { name: kernel.event_listener, event: kernel.view, method: onViewEvent }

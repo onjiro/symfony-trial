@@ -11,10 +11,9 @@ class DefaultController extends Controller
     /**
      * @Route("/kakeibo")
      * @Route("/kakeibo/index")
-     * @Template()
      */
     public function indexAction()
     {
-        return $this->render('OnjiroKakeiboBundle:Default:index.html.twig', array('name' => 'index.php'));
+        return array('name' => 'index.php');
     }
 }
