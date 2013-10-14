@@ -9,11 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/kakeibo/{name}")
+     * @Route("/kakeibo")
+     * @Route("/kakeibo/index")
      * @Template()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return $this->render('OnjiroKakeiboBundle:Default:index.html.twig', array('name' => $name));
+        return $this->render('OnjiroKakeiboBundle:Default:index.html.twig', array('name' => 'index.php'));
     }
 }
