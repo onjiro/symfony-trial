@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Onjiro\Bundle\KakeiboBundle\Database\DatabaseConnectorBase;
+
 class DefaultController extends Controller
 {
     /**
@@ -14,6 +16,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $connector = $this->get('database.hoge');
+        $connector->find();
         return array('name' => 'index.php');
     }
 }

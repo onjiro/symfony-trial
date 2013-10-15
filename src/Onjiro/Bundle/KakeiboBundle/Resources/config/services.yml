@@ -17,3 +17,9 @@ services:
             - @templating
         tags:
             - { name: kernel.event_listener, event: kernel.view, method: onViewEvent }
+
+    database.hoge:
+        class: Onjiro\Bundle\KakeiboBundle\Database\DatabaseConnectorBase
+        arguments:
+            - test_table
+            - @doctrine.dbal.default_connection
