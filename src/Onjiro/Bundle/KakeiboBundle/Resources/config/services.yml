@@ -9,7 +9,28 @@ parameters:
         json: Onjiro\Bundle\KakeiboBundle\Formatter\JsonFormatter
 
 services:
-    kernel.listener.your_listener_name:
+    request_context:
+        class: Onjiro\Bundle\KakeiboBundle\Util\RequestContext
+        scope: request
+
+    kernel.listener.user_id_cache_listner:
+        class: Onjiro\Bundle\KakeiboBundle\EventListener\UserIdListener
+        scope: request
+        arguments: [@request_context]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onRequestEvent }
+            - { name: kernel.event_listener, event: kernel.response, method: onResponseEvent }
+
+    # 上で定義しているのとは別インスタンスも確認したい
+    # 別インスタンスから同じ RequestContext のインスタンス見てる
+    kernel.listener.user_id_print_listner:
+        class: Onjiro\Bundle\KakeiboBundle\EventListener\UserIdListener
+        scope: request
+        arguments: [@request_context]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onResponseEvent }
+
+    kernel.listener.response_format_listener:
         class: Onjiro\Bundle\KakeiboBundle\EventListener\ViewEventListener
         arguments: 
             - %onjiro_kakeibo.formatMappings%
@@ -18,8 +39,9 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.view, method: onViewEvent }
 
-    database.hoge:
-        class: Onjiro\Bundle\KakeiboBundle\Database\DatabaseConnectorBase
-        arguments:
-            - test_table
-            - @doctrine.dbal.default_connection
+    # database.hoge:
+    #     class: Onjiro\Bundle\KakeiboBundle\Database\DatabaseConnectorBase
+    #     arguments:
+    #         - test_table
+    #         - @doctrine.dbal.default_connection
+

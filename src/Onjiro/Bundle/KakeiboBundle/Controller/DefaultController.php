@@ -16,8 +16,9 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $connector = $this->get('database.hoge');
-        $connector->find();
+        $requestContainer = $this->get('request_context');
+        /* $connector = $this->get('database.hoge'); */
+        /* $connector->find(); */
         return array('name' => 'index.php');
     }
 }
