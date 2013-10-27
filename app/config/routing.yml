@@ -1,3 +1,8 @@
+onjiro_lot:
+    resource: "@OnjiroLotBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 onjiro_kakeibo:
     resource: "@OnjiroKakeiboBundle/Controller/"
     type:     annotation
