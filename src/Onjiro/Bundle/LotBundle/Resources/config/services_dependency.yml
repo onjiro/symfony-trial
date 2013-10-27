@@ -1,0 +1,30 @@
+services:
+    # arguments は <テーブルに定義されたtype>: <対応するfactory>
+    # TODO タイプに対応するファクトリーのサービス名は規約にしたほうがよいかも
+    lot.factory.main:
+        class: Onjiro\Bundle\LotBundle\Lot\Factory\ForwardByDataTypeFactory
+        arguments:
+            - normal:   %lot.factory.type.normal%
+              rare:     %lot.factory.type.rare%
+              event:    %lot.factory.type.event%
+
+    lot.factory.type.normal:
+        class: Onjiro\Bundle\LotBundle\Lot\Factory\FillRateWithDefaultTableFactory
+        arguments:
+            - %lot.random%   # fillLot
+            - 100000         # toFillRate= 100%
+
+    lot.factory.type.rare:
+        class: Onjiro\Bundle\LotBundle\Lot\Factory\UsingDefaultTableFactory
+
+    lot.factory.type.event:
+        class: Onjiro\Bundle\LotBundle\Lot\Factory\FillRateWithDefaultTableFactory
+        arguments:
+            - %lot.factory.type.random%
+            - 100000 #= 100%
+
+    # 本当は独自の実装を指定する
+    lot.random:
+        class: Onjiro\Bundle\Lot\EquallyLot
+        arguments:
+            - [0, 1, 2]

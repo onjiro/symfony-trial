@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Onjiro\Bundle\SessionBundle\OnjiroSessionBundle(),
             new Onjiro\Bundle\KakeiboBundle\OnjiroKakeiboBundle(),
+            new Onjiro\Bundle\LotBundle\OnjiroLotBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
