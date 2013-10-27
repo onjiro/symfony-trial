@@ -1,0 +1,8 @@
+imports:
+    - { resource: service_dependency.yml }
+
+services:
+    lot.service:
+        class: Onjiro\Bundle\LotBundle\LotService
+        arguments:
+            - %lot.factory.main%
