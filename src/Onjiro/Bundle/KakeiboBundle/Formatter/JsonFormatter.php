@@ -17,12 +17,5 @@ class JsonFormatter implements FormatterInterface
      */
     public function format(array $data, Request $req) {
         return new JsonResponse($data);
-    };
+    }
 }
-
-
-
-
-
-
-

@@ -29,7 +29,7 @@ services:
     # -----------------------------------------------------------------
     #  レスポンスフォーマッター・リスナー
     # -----------------------------------------------------------------
-    onjiro_kakeibo.response_format_listener:
+    onjiro_kakeibo.response_formatter_listener:
         class: Onjiro\Bundle\KakeiboBundle\EventListener\ViewEventListener
         arguments: 
             - %onjiro_kakeibo.formatMappings%

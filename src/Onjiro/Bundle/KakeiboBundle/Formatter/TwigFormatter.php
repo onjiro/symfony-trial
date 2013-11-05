@@ -10,7 +10,7 @@ class TwigFormatter implements FormatterInterface
 {
     public function __construct($bundleName, $templating)
     {
-        $this->bundleName = $bundleName
+        $this->bundleName = $bundleName;
         $this->templating = $templating;
     }
 
@@ -22,19 +22,20 @@ class TwigFormatter implements FormatterInterface
             $this->resolveTemplatefile($req->getPathInfo()),
             $data
         );
-    };
+    }
 
     private function resolveTemplatefile($requestPath)
     {
         if (empty($requestPath)) {
             return $this->bundleName.':Default:index.html.twig';
         } else if (count($pathArray = explode('/', $requestPath)) === 1) {
-            $fileName = $pathArray[0]
+            $fileName = $pathArray[0];
             return $this->bundleName.':Default:'.$fileName.'.html.twig';
         } else {
             $fileName = array_pop($pathArray);
+            array_shift($pathArray);
             $directory = implode('\\', $pathArray);
-            return $this->bundleName.':'.$directory.':'.$filename.'.html.twig';
+            return $this->bundleName.':'.$directory.':'.$fileName.'.html.twig';
         }
     }
 }

@@ -26,7 +26,7 @@ class ViewEventListener
             echo preg_match("|$pattern|", $path).'<br>'.PHP_EOL;
             if (preg_match("|$pattern|", $path) && isset($this->formatters[$format])) {
                 $formatter = $this->formatters[$format];
-                $event->setResponse($formatter->format($event->getControllerResult()));
+                $event->setResponse($formatter->format($event->getControllerResult(), $event->getRequest()));
                 break;
             }
         }
@@ -38,6 +38,6 @@ class ViewEventListener
      */
     public function addFormatter($format, FormatterInterface $formatter)
     {
-        $this->formatters[$type] = $formatter;
+        $this->formatters[$format] = $formatter;
     }
 }
