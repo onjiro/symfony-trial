@@ -1,3 +1,9 @@
+parameters:
+    lot.factory.type.normal: hoge
+    lot.factory.type.rare: fuga
+    lot.factory.type.event: piyo
+    lot.factory.type.random: rand
+
 services:
     # arguments は <テーブルに定義されたtype>: <対応するfactory>
     # TODO タイプに対応するファクトリーのサービス名は規約にしたほうがよいかも
@@ -11,7 +17,7 @@ services:
     lot.factory.type.normal:
         class: Onjiro\Bundle\LotBundle\Lot\Factory\FillRateWithDefaultTableFactory
         arguments:
-            - %lot.random%   # fillLot
+            - @lot.random    # fillLot
             - 100000         # toFillRate= 100%
 
     lot.factory.type.rare:

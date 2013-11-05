@@ -2,33 +2,42 @@
 namespace Onjiro\Bundle\KakeiboBundle\EventListener;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Onjiro\Bundle\KakeiboBundle\Formatter\FormatterInterface;
 
 class ViewEventListener
 {
-    public function __construct($formatMapping, $formatters, $templating)
-    {
-        // TODO formatMapping が空だったらエラーにする
+    /** @var フォーマットタイプ文字列に対応するフォーマッター実装のマップ */
+    private $formatters = array();
 
+    public function __construct($formatMapping)
+    {
+        if (empty($formatMapping)) {
+            throw new Exception();
+        }
         $this->formatMapping = $formatMapping;
-        $this->formatters = $formatters;
-        $this->templating = $templating;
     }
 
-    public function onViewEvent($event)
+    public function onViewEvent(GetResponseForControllerResultEvent $event)
     {
         $path = $event->getRequest()->getPathInfo();
         foreach ($this->formatMapping as $pattern => $format) {
-            if (preg_match("|$pattern|", $path)) {
-                // TODO 対応するフォーマッターに処理を移譲する
-                $event->setResponse($this->templating->renderResponse(
-                    'OnjiroKakeiboBundle:Default:index.html.twig',
-                    $event->getControllerResult()
-                ));
+            echo "|$pattern| ".$path.PHP_EOL;
+            echo preg_match("|$pattern|", $path).'<br>'.PHP_EOL;
+            if (preg_match("|$pattern|", $path) && isset($this->formatters[$format])) {
+                $formatter = $this->formatters[$format];
+                $event->setResponse($formatter->format($event->getControllerResult()));
                 break;
             }
         }
+    }
 
-        // TODO response が設定されていなかったらエラーにマッピング一覧を表示するか？
-        // if ($event->hasResponse()) { ... }
+    /**
+     * @param $format str 対応するフォーマット
+     * @param $formatter FormatterInterface タイプを処理するフォーマッタ
+     */
+    public function addFormatter($format, FormatterInterface $formatter)
+    {
+        $this->formatters[$type] = $formatter;
     }
 }

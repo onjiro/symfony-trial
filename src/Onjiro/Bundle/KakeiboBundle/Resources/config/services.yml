@@ -3,10 +3,6 @@ parameters:
     onjiro_kakeibo.formatMappings:
         '/kakeibo.*': twig
         '/api.*': json
-    # フォーマッターは別途タイプ毎に切り出す形としたい
-    onjiro_kakeibo.formatters:
-        twig: Onjiro\Bundle\KakeiboBundle\Formatter\TwigFormatter
-        json: Onjiro\Bundle\KakeiboBundle\Formatter\JsonFormatter
 
 services:
     request_context:
@@ -30,14 +26,32 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onResponseEvent }
 
-    kernel.listener.response_format_listener:
+    # -----------------------------------------------------------------
+    #  レスポンスフォーマッター・リスナー
+    # -----------------------------------------------------------------
+    onjiro_kakeibo.response_format_listener:
         class: Onjiro\Bundle\KakeiboBundle\EventListener\ViewEventListener
         arguments: 
             - %onjiro_kakeibo.formatMappings%
-            - %onjiro_kakeibo.formatters%
+        tags:
+            - { name: onjiro_kakeibo.response_format_listener }
+            - { name: kernel.event_listener, event: kernel.view, method: onViewEvent }
+
+    # -----------------------------------------------------------------
+    #  レスポンスフォーマッター
+    # -----------------------------------------------------------------
+    response_formatter.json:
+        class: Onjiro\Bundle\KakeiboBundle\Formatter\JsonFormatter
+        tags:
+            - { name: onjiro_kakeibo.response_formatter, format: json}
+
+    response_formatter.twig:
+        class: Onjiro\Bundle\KakeiboBundle\Formatter\TwigFormatter
+        arguments:
+            - OnjiroKakeiboBundle
             - @templating
         tags:
-            - { name: kernel.event_listener, event: kernel.view, method: onViewEvent }
+            - { name: onjiro_kakeibo.response_formatter, format: twig}
 
     # database.hoge:
     #     class: Onjiro\Bundle\KakeiboBundle\Database\DatabaseConnectorBase
